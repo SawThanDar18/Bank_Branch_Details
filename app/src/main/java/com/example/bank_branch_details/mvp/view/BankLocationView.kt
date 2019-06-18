@@ -2,11 +2,8 @@ package com.example.bank_branch_details.mvp.view
 
 import com.example.bank_branch_details.network.response.BranchCodeResponse
 
-
-interface BranchView {
+interface BankLocationView {
 
     fun showPrompt(message : String)
-    fun showBranchDetails(branchCodeResponse: BranchCodeResponse)
-    fun callBankPhone(branchCodeResponse: BranchCodeResponse)
-
+    fun showBankLocation(branchCodeResponse: BranchCodeResponse)
 }

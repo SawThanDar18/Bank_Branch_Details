@@ -5,5 +5,5 @@ interface Data {
 
     fun getRequestAuth()
     fun getBranchDetail()
-    fun getCurrentPosition()
+    fun getBankLocation()
 }

@@ -2,11 +2,11 @@ package com.example.bank_branch_details.mvp.presenter
 
 import com.example.bank_branch_details.event.RestApiEvents
 import com.example.bank_branch_details.mvp.model.BranchModel
-import com.example.bank_branch_details.mvp.view.CurrentPositionView
+import com.example.bank_branch_details.mvp.view.BankLocationView
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 
-class CurrentPositionPresenter constructor(val currentPositionView: CurrentPositionView) : BasePresenter() {
+class BankLocationPresenter constructor(val bankLocationView: BankLocationView) : BasePresenter() {
 
     override fun onStart(){
         if(!EventBus.getDefault().isRegistered(this)){
@@ -14,8 +14,8 @@ class CurrentPositionPresenter constructor(val currentPositionView: CurrentPosit
         }
     }
 
-    fun startLoadingCurrentPosition(){
-        BranchModel.getInstance().getCurrentPosition()
+    fun startLoadingBankLocation(){
+        BranchModel.getInstance().getBankLocation()
     }
 
     override fun onStop(){
@@ -25,12 +25,12 @@ class CurrentPositionPresenter constructor(val currentPositionView: CurrentPosit
     }
 
     @Subscribe
-    fun onShowCurrentPosition(event : RestApiEvents.ShowCurrentPosition){
-        currentPositionView.showCurrentPosition(event.branchCodeResponse)
+    fun onShowCurrentPosition(event : RestApiEvents.ShowBankLocation){
+        bankLocationView.showBankLocation(event.branchCodeResponse)
     }
 
     @Subscribe
     fun onError(event: RestApiEvents.ErrorInvokingAPIEvent){
-        currentPositionView.showPrompt(event.message)
+        bankLocationView.showPrompt(event.message)
     }
 }

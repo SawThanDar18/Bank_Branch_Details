@@ -1,4 +1,4 @@
-package com.example.bank_branch_details.adapter
+package com.example.bank_branch_details.ui.detail.adapter
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView

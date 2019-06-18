@@ -117,7 +117,7 @@ open class DataImpl private constructor() : Data{
                  Log.i("login","if")
                  token = response.body()!!.access_token
                  getBranchDetail()
-                 getCurrentPosition()
+                 getBankLocation()
              } else {
                  Log.i("login","else")
                 EventBus.getDefault()
@@ -144,6 +144,8 @@ open class DataImpl private constructor() : Data{
                     Log.i("msg","if")
                     EventBus.getDefault()
                         .post(RestApiEvents.ShowBranchDetails(response.body()!!))
+                    EventBus.getDefault()
+                        .post(RestApiEvents.CallBankPhone(response.body()!!))
                 }
                 else{
                     Log.i("msg","else")
@@ -153,9 +155,9 @@ open class DataImpl private constructor() : Data{
         })
     }
 
-    override fun getCurrentPosition() {
+    override fun getBankLocation() {
         val branch = Access_BranchCode("101","5.01")
-        requestTokenApi.getCurrentPosition("Bearer ${token}", branch).enqueue(object: Callback<BranchCodeResponse>{
+        requestTokenApi.getBankLocation("Bearer ${token}", branch).enqueue(object: Callback<BranchCodeResponse>{
             override fun onFailure(call: Call<BranchCodeResponse>, t: Throwable) {
                 EventBus.getDefault()
                     .post(RestApiEvents.ErrorInvokingAPIEvent(t.localizedMessage))
@@ -164,7 +166,7 @@ open class DataImpl private constructor() : Data{
             override fun onResponse(call: Call<BranchCodeResponse>, response: Response<BranchCodeResponse>) {
                 if(response.isSuccessful){
                     EventBus.getDefault()
-                        .post(RestApiEvents.ShowCurrentPosition(response.body()!!))
+                        .post(RestApiEvents.ShowBankLocation(response.body()!!))
                 }
                 else{
                     Toast.makeText(context, "err", Toast.LENGTH_LONG).show()

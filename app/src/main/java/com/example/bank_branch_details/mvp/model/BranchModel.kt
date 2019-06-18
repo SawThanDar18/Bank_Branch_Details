@@ -24,8 +24,8 @@ class BranchModel {
         DataImpl.getInstance().getBranchDetail()
     }
 
-    fun getCurrentPosition(){
-        DataImpl.getInstance().getCurrentPosition()
+    fun getBankLocation(){
+        DataImpl.getInstance().getBankLocation()
     }
 
 }
