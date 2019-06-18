@@ -7,6 +7,7 @@ interface BranchView {
 
     fun showPrompt(message : String)
     fun showBranchDetails(branchCodeResponse: BranchCodeResponse)
+    fun viewMap(branchCodeResponse: BranchCodeResponse)
     fun callBankPhone(branchCodeResponse: BranchCodeResponse)
 
 }

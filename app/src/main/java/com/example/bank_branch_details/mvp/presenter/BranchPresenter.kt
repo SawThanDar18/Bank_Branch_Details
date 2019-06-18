@@ -28,6 +28,7 @@ class BranchPresenter constructor(val branchView : BranchView) : BasePresenter()
     fun onSuccess(event : RestApiEvents.ShowBranchDetails){
         branchView.showBranchDetails(event.branchCodeResponse)
         branchView.callBankPhone(event.branchCodeResponse)
+        branchView.viewMap(event.branchCodeResponse)
     }
 
     @Subscribe
