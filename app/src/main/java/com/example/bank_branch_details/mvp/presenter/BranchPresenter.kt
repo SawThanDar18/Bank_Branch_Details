@@ -15,6 +15,7 @@ class BranchPresenter constructor(val branchView : BranchView) : BasePresenter()
     }
 
     fun startLoadingBranchDetails(){
+        branchView.showLoading()
         BranchModel.getInstance().getRequestAuth()
     }
 
@@ -26,6 +27,7 @@ class BranchPresenter constructor(val branchView : BranchView) : BasePresenter()
 
     @Subscribe
     fun onSuccess(event : RestApiEvents.ShowBranchDetails){
+        branchView.dismissLoading()
         branchView.showBranchDetails(event.branchCodeResponse)
         branchView.callBankPhone(event.branchCodeResponse)
         branchView.viewMap(event.branchCodeResponse)
@@ -33,6 +35,7 @@ class BranchPresenter constructor(val branchView : BranchView) : BasePresenter()
 
     @Subscribe
     fun onError(event: RestApiEvents.ErrorInvokingAPIEvent){
+        branchView.dismissLoading()
         branchView.showPrompt(event.message)
     }
 }

@@ -14,12 +14,6 @@ import com.example.bank_branch_details.ui.detail.adapter.RecyclerAdapter
 import com.example.bank_branch_details.mvp.presenter.BranchPresenter
 import com.example.bank_branch_details.mvp.view.BranchView
 import com.example.bank_branch_details.network.response.BranchCodeResponse
-import com.example.bank_branch_details.ui.map.BankLocation
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.bank_branch_detail.*
 
 class BankDetailActivity : AppCompatActivity(), BranchView{
@@ -28,9 +22,6 @@ class BankDetailActivity : AppCompatActivity(), BranchView{
 
     private lateinit var recyclerview : RecyclerView
     private lateinit var recyclerAdapter : RecyclerAdapter
-
-    /*private var latLng : LatLng? = null
-    private var googleMap : GoogleMap? = null*/
 
     private var latitude : Double? = null
     private var longitude : Double? = null
@@ -46,6 +37,13 @@ class BankDetailActivity : AppCompatActivity(), BranchView{
         presenter = BranchPresenter(this)
         presenter.startLoadingBranchDetails()
 
+        swipeRefresh.setOnRefreshListener {
+            presenter.startLoadingBranchDetails()
+        }
+
+        refresh_iv.setOnClickListener {
+            presenter.startLoadingBranchDetails()
+        }
 
         call_image.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse("tel:" + phone!![0]))
@@ -79,14 +77,6 @@ class BankDetailActivity : AppCompatActivity(), BranchView{
     }
 
     override fun viewMap(branchCodeResponse: BranchCodeResponse) {
-        /*latLng = LatLng(branchCodeResponse.access_BranchInfo!!.latitude!!, branchCodeResponse.access_BranchInfo!!.longitude!!)
-        val markerOptions = MarkerOptions()
-        markerOptions.position(latLng!!)
-        markerOptions.title(branchCodeResponse.access_BranchInfo.branch_name)
-        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE))
-        googleMap!!.addMarker(markerOptions)
-
-        googleMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 12f)).toString()*/
 
         latitude = branchCodeResponse.access_BranchInfo!!.latitude
         longitude = branchCodeResponse.access_BranchInfo!!.longitude
@@ -95,6 +85,18 @@ class BankDetailActivity : AppCompatActivity(), BranchView{
 
     override fun callBankPhone(branchCodeResponse: BranchCodeResponse) {
         phone = branchCodeResponse.access_BranchInfo!!.branch_phone!!.split(",").toTypedArray()
+    }
+
+    override fun showLoading() {
+        if (!swipeRefresh.isRefreshing) {
+            swipeRefresh.isRefreshing = true
+        }
+    }
+
+    override fun dismissLoading() {
+        if (swipeRefresh.isRefreshing) {
+            swipeRefresh.isRefreshing = false
+        }
     }
 
     override fun onStart(){

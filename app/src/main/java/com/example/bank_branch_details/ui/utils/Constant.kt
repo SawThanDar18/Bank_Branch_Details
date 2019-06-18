@@ -1,4 +1,4 @@
-package com.example.bank_branch_details.utils
+package com.example.bank_branch_details.ui.utils
 
 class Constant {
 
