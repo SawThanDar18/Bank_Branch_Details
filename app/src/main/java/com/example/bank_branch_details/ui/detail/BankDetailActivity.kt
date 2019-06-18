@@ -1,6 +1,5 @@
 package com.example.bank_branch_details.ui.detail
 
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.support.v7.app.AppCompatActivity
@@ -25,8 +24,7 @@ class BankDetailActivity : AppCompatActivity(), BranchView{
     private lateinit var recyclerview : RecyclerView
     private lateinit var recyclerAdapter : RecyclerAdapter
 
-    private var phone : List<String>? = null
-    private lateinit var context: Context
+    private var phone : Array<String>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -38,9 +36,7 @@ class BankDetailActivity : AppCompatActivity(), BranchView{
 
 
         call_image.setOnClickListener {
-            context = this
-            val intent = Intent(Intent.ACTION_VIEW)
-            intent.data = Uri.parse("tel:" + phone!![0])
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("tel:" + phone!![0]))
             startActivity(intent)
         }
 
@@ -71,7 +67,7 @@ class BankDetailActivity : AppCompatActivity(), BranchView{
     }
 
     override fun callBankPhone(branchCodeResponse: BranchCodeResponse) {
-        phone = branchCodeResponse.access_BranchInfo!!.branch_phone!!.split(",")
+        phone = branchCodeResponse.access_BranchInfo!!.branch_phone!!.split(",").toTypedArray()
     }
 
     override fun onStart(){

@@ -60,7 +60,7 @@ class BankLocation : AppCompatActivity(), BankLocationView, OnMapReadyCallback {
         val markerOptions = MarkerOptions()
         markerOptions.position(latLng)
         markerOptions.title(branchCodeResponse.access_BranchInfo.branch_name)
-        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET))
+        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE))
         googleMap!!.addMarker(markerOptions)
 
         googleMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 12f))
