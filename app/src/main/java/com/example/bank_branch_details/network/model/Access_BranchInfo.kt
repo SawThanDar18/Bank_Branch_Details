@@ -10,6 +10,13 @@ class Access_BranchInfo {
     @SerializedName("Address")
     val branch_address : String? = null
 
+    @SerializedName("Latitude")
+    val latitude : Double? = null
+
+    @SerializedName("Longitude")
+    val longitude : Double? = null
+
     @SerializedName("Phone")
     val branch_phone : String? = null
+
 }

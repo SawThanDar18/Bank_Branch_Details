@@ -1,9 +1,10 @@
-package com.example.bank_branch_details
+package com.example.bank_branch_details.adapter
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import com.example.bank_branch_details.R
 import com.example.bank_branch_details.network.model.Access_BranchServices
 
 class RecyclerAdapter(val branch_service : ArrayList<Access_BranchServices>, val mContext : Context) : RecyclerView.Adapter<MyHolder>() {

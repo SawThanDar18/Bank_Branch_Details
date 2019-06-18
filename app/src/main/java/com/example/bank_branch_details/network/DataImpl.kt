@@ -3,13 +3,12 @@ package com.example.bank_branch_details.network
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
-import com.example.bank_branch_details.R
-import com.example.bank_branch_details.RecyclerAdapter
 import com.example.bank_branch_details.event.RestApiEvents
 import com.example.bank_branch_details.network.api.Data
 import com.example.bank_branch_details.network.api.RequestAuthApi
 import com.example.bank_branch_details.network.api.RequestBranchDetailApi
 import com.example.bank_branch_details.network.model.Access_BranchCode
+import com.example.bank_branch_details.network.model.Access_BranchInfo
 import com.example.bank_branch_details.network.model.Access_Token
 import com.example.bank_branch_details.network.response.BranchCodeResponse
 import com.example.bank_branch_details.utils.Constant
@@ -118,7 +117,7 @@ open class DataImpl private constructor() : Data{
                  Log.i("login","if")
                  token = response.body()!!.access_token
                  getBranchDetail()
-
+                 getCurrentPosition()
              } else {
                  Log.i("login","else")
                 EventBus.getDefault()
@@ -148,6 +147,26 @@ open class DataImpl private constructor() : Data{
                 }
                 else{
                     Log.i("msg","else")
+                    Toast.makeText(context, "err", Toast.LENGTH_LONG).show()
+                }
+            }
+        })
+    }
+
+    override fun getCurrentPosition() {
+        val branch = Access_BranchCode("101","5.01")
+        requestTokenApi.getCurrentPosition("Bearer ${token}", branch).enqueue(object: Callback<BranchCodeResponse>{
+            override fun onFailure(call: Call<BranchCodeResponse>, t: Throwable) {
+                EventBus.getDefault()
+                    .post(RestApiEvents.ErrorInvokingAPIEvent(t.localizedMessage))
+            }
+
+            override fun onResponse(call: Call<BranchCodeResponse>, response: Response<BranchCodeResponse>) {
+                if(response.isSuccessful){
+                    EventBus.getDefault()
+                        .post(RestApiEvents.ShowCurrentPosition(response.body()!!))
+                }
+                else{
                     Toast.makeText(context, "err", Toast.LENGTH_LONG).show()
                 }
             }

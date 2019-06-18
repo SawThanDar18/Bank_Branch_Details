@@ -1,5 +1,7 @@
-package com.example.bank_branch_details.ui
+package com.example.bank_branch_details.ui.detail
 
+import android.content.Intent
+import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
@@ -8,23 +10,37 @@ import android.widget.GridLayout.VERTICAL
 import android.widget.TextView
 import android.widget.Toast
 import com.example.bank_branch_details.R
-import com.example.bank_branch_details.RecyclerAdapter
+import com.example.bank_branch_details.adapter.RecyclerAdapter
 import com.example.bank_branch_details.mvp.presenter.BranchPresenter
 import com.example.bank_branch_details.mvp.view.BranchView
 import com.example.bank_branch_details.network.response.BranchCodeResponse
+import com.example.bank_branch_details.ui.map.CurrentBankPosition
+import kotlinx.android.synthetic.main.bank_branch_detail.*
 
-class MainActivity : AppCompatActivity(), BranchView{
+class BankDetailActivity : AppCompatActivity(), BranchView{
 
     private lateinit var presenter: BranchPresenter
+
     private lateinit var recyclerview : RecyclerView
     private lateinit var recyclerAdapter : RecyclerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.bank_branch_detail)
 
-        presenter = BranchPresenter(this@MainActivity)
+        presenter = BranchPresenter(this@BankDetailActivity)
         presenter.startLoadingBranchDetails()
+
+        call_image.setOnClickListener {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("tel:" + "09260710508"))
+            startActivity(intent)
+        }
+
+        map_image.setOnClickListener {
+            val intent = Intent(this@BankDetailActivity, CurrentBankPosition::class.java)
+            startActivity(intent)
+        }
     }
 
     override fun showPrompt(message: String) {
