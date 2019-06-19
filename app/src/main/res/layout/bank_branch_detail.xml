@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefresh"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.detail.BankDetailActivity">
+
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
@@ -48,6 +57,7 @@
                         android:textSize="20sp"/>
 
                 <ImageView
+                        android:id="@+id/refresh_iv"
                         android:layout_margin="5dp"
                         android:src="@drawable/ic_refresh_black_24dp"
                         android:layout_width="90dp"
@@ -228,3 +238,4 @@
 
     </android.support.constraint.ConstraintLayout>
 </ScrollView>
+</android.support.v4.widget.SwipeRefreshLayout>

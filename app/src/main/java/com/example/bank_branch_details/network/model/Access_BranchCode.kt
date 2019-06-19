@@ -1,3 +1,5 @@
 package com.example.bank_branch_details.network.model
 
-data class Access_BranchCode (val branchCode : String, val appVersion : String)
+import com.google.gson.annotations.SerializedName
+
+class Access_BranchCode (val branchCode : String, val appVersion : String)

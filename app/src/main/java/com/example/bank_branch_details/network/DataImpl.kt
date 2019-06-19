@@ -7,10 +7,13 @@ import com.example.bank_branch_details.event.RestApiEvents
 import com.example.bank_branch_details.network.api.Data
 import com.example.bank_branch_details.network.api.RequestAuthApi
 import com.example.bank_branch_details.network.api.RequestBranchDetailApi
+import com.example.bank_branch_details.network.api.RequestTouchPointListApi
 import com.example.bank_branch_details.network.model.Access_BranchCode
 import com.example.bank_branch_details.network.model.Access_BranchInfo
 import com.example.bank_branch_details.network.model.Access_Token
+import com.example.bank_branch_details.network.model.Access_TouchPointList
 import com.example.bank_branch_details.network.response.BranchCodeResponse
+import com.example.bank_branch_details.network.response.TouchPointListResponse
 import com.example.bank_branch_details.utils.Constant
 import com.google.gson.Gson
 import okhttp3.OkHttpClient
@@ -31,6 +34,7 @@ open class DataImpl private constructor() : Data{
 
     private  var requestAuthApi : RequestAuthApi
     private  var requestTokenApi: RequestBranchDetailApi
+    private var requestTouchListApi : RequestTouchPointListApi
     private var context : Context? = null
     private var token : String? = null
 
@@ -85,21 +89,28 @@ open class DataImpl private constructor() : Data{
             }
         }
 
-        val authClient = getOkHttpClient()
+        val client = getOkHttpClient()
         val authRetrofit = Retrofit.Builder()
             .baseUrl(Constant.RequstToken_URL)
             .addConverterFactory(GsonConverterFactory.create(Gson()))
-            .client(authClient)
+            .client(client)
             .build()
         requestAuthApi = authRetrofit.create(RequestAuthApi::class.java)
 
-        val detailClient = getOkHttpClient()
         val detailRetrofit = Retrofit.Builder()
             .baseUrl(Constant.BranchDetail_URL)
             .addConverterFactory(GsonConverterFactory.create(Gson()))
-            .client(detailClient)
+            .client(client)
             .build()
         requestTokenApi = detailRetrofit.create(RequestBranchDetailApi::class.java)
+
+        val touchListRetrofit = Retrofit.Builder()
+            .baseUrl(Constant.BranchDetail_URL)
+            .addConverterFactory(GsonConverterFactory.create(Gson()))
+            .client(client)
+            .build()
+        requestTouchListApi = touchListRetrofit.create(RequestTouchPointListApi::class.java)
+
     }
 
     override fun getRequestAuth() {
@@ -118,6 +129,7 @@ open class DataImpl private constructor() : Data{
                  token = response.body()!!.access_token
                  getBranchDetail()
                  getBankLocation()
+                 getTouchPointList()
              } else {
                  Log.i("login","else")
                 EventBus.getDefault()
@@ -172,6 +184,27 @@ open class DataImpl private constructor() : Data{
                     Toast.makeText(context, "err", Toast.LENGTH_LONG).show()
                 }
             }
+        })
+    }
+
+    override fun getTouchPointList() {
+        val branch = Access_TouchPointList("All","1","5000","5.01")
+        requestTouchListApi.getTouchPointList("Bearer ${token}", branch).enqueue(object : Callback<TouchPointListResponse>{
+            override fun onFailure(call: Call<TouchPointListResponse>, t: Throwable) {
+                EventBus.getDefault()
+                    .post(RestApiEvents.ErrorInvokingAPIEvent(t.localizedMessage))
+            }
+
+            override fun onResponse(call: Call<TouchPointListResponse>, response: Response<TouchPointListResponse>) {
+               if(response.isSuccessful){
+                   EventBus.getDefault()
+                       .post(RestApiEvents.ShowTouchPointList(response.body()!!))
+               }
+                else{
+                   Toast.makeText(context, "err", Toast.LENGTH_LONG).show()
+               }
+            }
+
         })
     }
 }

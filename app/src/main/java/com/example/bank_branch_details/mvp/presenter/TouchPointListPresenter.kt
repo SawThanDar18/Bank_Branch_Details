@@ -2,11 +2,11 @@ package com.example.bank_branch_details.mvp.presenter
 
 import com.example.bank_branch_details.event.RestApiEvents
 import com.example.bank_branch_details.mvp.model.BranchModel
-import com.example.bank_branch_details.mvp.view.BranchView
+import com.example.bank_branch_details.mvp.view.TouchPointListView
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 
-class BranchPresenter constructor(val branchView : BranchView) : BasePresenter() {
+class TouchPointListPresenter constructor(val touchPointListView: TouchPointListView) : BasePresenter() {
 
     override fun onStart(){
         if(!EventBus.getDefault().isRegistered(this)){
@@ -14,9 +14,9 @@ class BranchPresenter constructor(val branchView : BranchView) : BasePresenter()
         }
     }
 
-    fun startLoadingBranchDetails(){
-        branchView.showLoading()
-        BranchModel.getInstance().getRequestAuth()
+    fun startLoadingTouchPointList(){
+        touchPointListView.showLoading()
+        BranchModel.getInstance().getTouchPointList()
     }
 
     override fun onStop(){
@@ -26,16 +26,14 @@ class BranchPresenter constructor(val branchView : BranchView) : BasePresenter()
     }
 
     @Subscribe
-    fun onSuccess(event : RestApiEvents.ShowBranchDetails){
-        branchView.dismissLoading()
-        branchView.showBranchDetails(event.branchCodeResponse)
-        branchView.callBankPhone(event.branchCodeResponse)
-        branchView.viewMap(event.branchCodeResponse)
+    fun onSuccess(event : RestApiEvents.ShowTouchPointList){
+        touchPointListView.dismissLoading()
+        touchPointListView.showTouchPointList(event.touchPointListResponse)
     }
 
     @Subscribe
     fun onError(event: RestApiEvents.ErrorInvokingAPIEvent){
-        branchView.dismissLoading()
-        branchView.showPrompt(event.message)
+        touchPointListView.dismissLoading()
+        touchPointListView.showPrompt(event.message)
     }
 }

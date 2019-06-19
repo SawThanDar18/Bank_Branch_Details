@@ -28,4 +28,8 @@ class BranchModel {
         DataImpl.getInstance().getBankLocation()
     }
 
+    fun getTouchPointList(){
+        DataImpl.getInstance().getTouchPointList()
+    }
+
 }

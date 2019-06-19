@@ -6,4 +6,5 @@ interface Data {
     fun getRequestAuth()
     fun getBranchDetail()
     fun getBankLocation()
+    fun getTouchPointList()
 }
