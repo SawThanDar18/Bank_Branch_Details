@@ -9,12 +9,11 @@ import com.example.bank_branch_details.network.api.RequestAuthApi
 import com.example.bank_branch_details.network.api.RequestBranchDetailApi
 import com.example.bank_branch_details.network.api.RequestTouchPointListApi
 import com.example.bank_branch_details.network.model.Access_BranchCode
-import com.example.bank_branch_details.network.model.Access_BranchInfo
 import com.example.bank_branch_details.network.model.Access_Token
 import com.example.bank_branch_details.network.model.Access_TouchPointList
 import com.example.bank_branch_details.network.response.BranchCodeResponse
 import com.example.bank_branch_details.network.response.TouchPointListResponse
-import com.example.bank_branch_details.utils.Constant
+import com.example.bank_branch_details.ui.utils.Constant
 import com.google.gson.Gson
 import okhttp3.OkHttpClient
 import org.greenrobot.eventbus.EventBus
